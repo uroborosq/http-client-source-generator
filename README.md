@@ -64,57 +64,6 @@ public interface IPythonRoute
 
 Парсер получает на вход путь к .py файлу с моделями и к файлу с методами, после чего построчно считывает информацию, находя нужные строчки при помощи регулярных выражений. Затем создает объекты с информацией о сервере.
 
-Метод, генерирующий информацию о моделях:
-
-
-Метод, генерирующий информацию о методах:
-```c#
-public void Parse()
-        {
-            if (!File.Exists(_path)) return;
-
-            var isRoute = new Regex(@"@.+\..+");
-            var isParameters = new Regex(@"def .+\(.*\).+:");
-
-            var routeName = string.Empty;
-            var listBodyParameters = new Dictionary<string, string>();
-            var listQueryParameters = new Dictionary<string, string>();
-            var returnValue = string.Empty;
-            var requestType = RequestType.Get;
-
-
-            foreach (var str in File.ReadAllLines(_path))
-            {
-                if (isRoute.IsMatch(str) && routeName == string.Empty)
-                {
-                    routeName = str.Substring(1, str.Length - 1).Split('"')[1];
-                    requestType = new RequestType().FromString(str.Substring(str.IndexOf('.') + 1,
-                        str.IndexOf('(') - str.IndexOf('.') - 1));
-                }
-                else if (isRoute.IsMatch(str))
-                {
-                    Routes.Add(new PythonRoute(
-                        routeName,
-                        requestType,
-                        listBodyParameters,
-                        listQueryParameters,
-                        returnValue));
-
-                    routeName = str.Substring(1, str.Length - 1).Split('"')[1];
-                    requestType = new RequestType().FromString(str.Substring(str.IndexOf('.') + 1,
-                        str.IndexOf('(') - str.IndexOf('.') - 1));
-                    listBodyParameters = new Dictionary<string, string>();
-                    listQueryParameters = new Dictionary<string, string>();
-                    returnValue = string.Empty;
-                }
-                else if (isParameters.IsMatch(str))
-                {
-                    var parameters = str.Substring(str.IndexOf('(') + 1, str.LastIndexOf(')') - str.IndexOf('('))
-                        .Split(',');
-                    foreach (var item in parameters)
-                    {
-                        if (!item.Contains('=')) continue;
-
 ---
 
 ### Генерация исходного кода для http клиента
