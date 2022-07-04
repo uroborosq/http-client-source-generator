@@ -1,9 +1,6 @@
-# Отчет по лабораторной работе №2
-## Тихомиров Дмитрий Алексеевич
----
 ### Представление информации о http сервере
 
-В ходе лабораторной работы был реализован http сервер на фреймворке FastApi на базе Python, содержащий следующие методы
+В ходе разработки проекта был реализован http сервер на фреймворке FastApi на базе Python, содержащий следующие методы:
 ```python
 @app.get("/requests/get")
 async def read_root() -> list[Request]:
@@ -24,7 +21,7 @@ async def add_manager(name: str = Query('')) -> Manager:
 async def get_managers() -> list[Manager]:
     return managerService.get()
 ```
-и модели данных
+и модели данных:
 ```python
 class Manager(BaseModel):
     full_name: str
@@ -333,7 +330,8 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using PythonHttpParser.Services;
-using SourceGenerator.Extensions;
+using SourceGene
+rator.Extensions;
 using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 
 namespace SourceGenerator;
@@ -427,6 +425,7 @@ public static class RouteRequestCreator
                     IdentifierName("HttpClient"))
                 .WithArgumentList(
                     ArgumentList())));
+
         counter = 0;
         foreach (var routeBodyParameter in route.BodyParameters)
         {
@@ -465,6 +464,7 @@ public static class RouteRequestCreator
                                 SingletonSeparatedList(
                                     Argument(
                                         IdentifierName(routeBodyParameter.Key))))))));
+                                        
             counter++;
             if (counter < route.BodyParameters.Count)
             {
